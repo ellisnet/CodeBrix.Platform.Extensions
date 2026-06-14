@@ -1,0 +1,130 @@
+THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
+
+CodeBrix.Platform.Extensions is a CodeBrix-family redistribution of the core
+nventive Uno.Core.Extensions helper libraries, bundled into a single .NET 10
+assembly with the namespaces renamed from `Uno.*` to
+`CodeBrix.Platform.Extensions.*`. Every `.cs` file under `src/` is derived from
+nventive's Uno.Core repository and is licensed under the Apache License,
+Version 2.0. The external NuGet dependencies (Microsoft.Extensions.Logging,
+CommonServiceLocator) are NOT redistributed as source — they remain ordinary
+package dependencies and ship under their own licenses.
+
+The full Apache License, Version 2.0 text is reproduced in the LICENSE file at
+the root of this repository.
+
+================================================================================
+
+1. nventive Uno.Core.Extensions (version 4.1.1)
+   --------------------------------------------
+   Project URL:    https://github.com/unoplatform/Uno.Core
+   Source commit:  6da975c67063a670626fe7ae19250ff585ba2224  (the exact commit
+                   from which the 4.1.1 NuGet packages were built, per the
+                   <repository commit="..."> metadata in each upstream nuspec)
+   Copyright:      Copyright (c) 2015-2018 nventive inc. All rights reserved.
+   License:        Apache License, Version 2.0
+   Original NuGet packages (all 4.1.1, all Apache-2.0):
+                     Uno.Core.Extensions
+                     Uno.Core.Extensions.Collections
+                     Uno.Core.Extensions.Disposables
+                     Uno.Core.Extensions.Equality
+                     Uno.Core.Extensions.Logging
+                     Uno.Core.Extensions.Logging.Singleton
+                     Uno.Core.Extensions.Threading
+
+   The CodeBrix.Platform fork referenced five of these packages directly
+   (Uno.Core.Extensions, .Compatibility, .Disposables, .Logging,
+   .Logging.Singleton) at version 4.0.1. This bundle vendors the 4.1.1 source
+   of the helper set actually used by CodeBrix.Platform; .Collections,
+   .Equality and .Threading are included because they are required by the
+   referenced libraries. The Uno.Core.Extensions.Compatibility package was
+   deliberately NOT vendored: CodeBrix.Platform imports none of the
+   Compatibility-exclusive namespaces (Uno.Async, Uno.Builder, Uno.Conversion,
+   Uno.Decorator, Uno.Events, Uno.Expressions, Uno.Reflection, Uno.Serialization,
+   Uno.Validation, etc.), and every namespace it does use is provided by the
+   seven vendored projects.
+
+   Files derived from this upstream project (all under
+   src/CodeBrix.Platform.Extensions/, grouped by the upstream project they were
+   copied from; every file retains its original Apache-2.0 header):
+
+     Extensions/        (26 files) <- Uno.Core.Extensions
+         general-purpose extensions: Action/Func/Async helpers, string, enum,
+         double, stream, URI, DateTime, weak-reference, memoization, currying.
+     Collections/       (14 files) <- Uno.Core.Extensions.Collections
+         enumerable/list/dictionary/queue/stack/memory extensions, observable-
+         collection update helpers, weak attached dictionaries.
+     Disposables/       (13 files) <- Uno.Core.Extensions.Disposables
+         CompositeDisposable, SerialDisposable, RefCountDisposable,
+         AnonymousDisposable, CancellationDisposable, NullDisposable, etc.
+     Equality/          ( 8 files) <- Uno.Core.Extensions.Equality
+         func/key/collection equality comparers, fast type comparer.
+     Logging/           ( 2 files) <- Uno.Core.Extensions.Logging
+         ILogger-based logging extension helpers.
+     LoggingSingleton/  ( 1 file ) <- Uno.Core.Extensions.Logging.Singleton
+         LogExtensionPoint singleton resolver.
+     Threading/         ( 6 files) <- Uno.Core.Extensions.Threading
+         FastAsyncLock, FastTaskCompletionSource, AsyncEvent, Transactional
+         immutable-update helpers.
+
+   Modifications made during the port:
+     - Target framework narrowed to net10.0 only (upstream multi-targeted
+       uap10.0.x / net46 / netstandard2.0 / netstandard2.1 / net5.0 / net6.0 /
+       net7.0). The upstream `#if` directives are preserved verbatim; the net10
+       build simply compiles the live branches.
+     - Namespaces renamed `Uno.* -> CodeBrix.Platform.Extensions.*`
+       (with `Uno.Extensions` and the root `Uno` namespace both mapping to
+       `CodeBrix.Platform.Extensions`). Each renamed `namespace` line carries a
+       `// was previously: <original-namespace>` provenance comment. Assembly
+       name and NuGet package id changed to CodeBrix.Platform.Extensions /
+       CodeBrix.Platform.Extensions.ApacheLicenseForever.
+     - The Uno.Core.Extensions.Compatibility package was not vendored
+       (see above) and three sibling helper projects (.Collections, .Equality,
+       .Threading) were included to satisfy the referenced set.
+     - A corrupted copyright glyph in every upstream header (the bytes
+       0xEF 0xBF 0xBD, an already-mojibake'd "(c)" present in the upstream
+       source) was normalized to the ASCII "(c)". No other header text was
+       changed; the nventive copyright and Apache-2.0 notice are preserved.
+     - Documentation-file generation is disabled and the upstream-origin
+       warnings CS8632 (stray nullable annotations) and CA2022 are suppressed
+       at the project level, because the upstream sources carry hundreds of
+       undocumented public members and stray annotations that are out of scope
+       to retrofit on a faithful third-party port (the same SITUATIONAL
+       exception used by CodeBrix.AssemblyTools and CodeBrix.Platform.OpenGL).
+     - No managed behavior was changed; only namespaces, target framework,
+       packaging metadata, and the header glyph were touched.
+
+================================================================================
+
+Non-redistributed dependencies (referenced as NuGet packages, not vendored):
+
+  - Microsoft.Extensions.Logging  (MIT) — used by the Logging helpers.
+  - CommonServiceLocator 2.0.5    (MS-PL) — used by LogExtensionPoint.
+  - System.Collections.Immutable  — provided in-box by the .NET 10 shared
+                                     framework (no package reference needed).
+
+These ship with their own license and notice files via NuGet; this repository
+does not redistribute their source, so their full license texts are not
+reproduced here.
+
+================================================================================
+
+License compatibility statement
+
+The combined work is published under SPDX expression `Apache-2.0`. All vendored
+source is itself Apache-2.0, so there is no cross-license incompatibility. The
+Apache-2.0 attribution requirement is satisfied by preserving the nventive
+copyright + Apache-2.0 header in every vendored file, by the per-project
+provenance above, and by the `<Copyright>` element of the library csproj.
+
+Jeremy Ellis and contributors license the CodeBrix.Platform.Extensions project
+to you under the terms set forth in the LICENSE file (Apache-2.0), located at
+the root of this repository.
+
+If you have any questions about any third-party code referenced here, or if you
+believe that any third-party material has been included in
+CodeBrix.Platform.Extensions in error, please open a new issue at:
+https://github.com/ellisnet/CodeBrix.Platform.Extensions/issues
+
+================================================================================
+
+END OF THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
