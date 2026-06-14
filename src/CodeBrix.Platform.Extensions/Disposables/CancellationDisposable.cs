@@ -27,7 +27,7 @@ namespace CodeBrix.Platform.Extensions.Disposables // was previously: Uno.Dispos
         private readonly CancellationTokenSource _cts;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Uno.Disposables.CancellationDisposable"/> class that uses an existing <seealso cref="T:System.Threading.CancellationTokenSource"/>.
+        /// Initializes a new instance of the <see cref="T:CodeBrix.Platform.Extensions.Disposables.CancellationDisposable"/> class that uses an existing <seealso cref="T:System.Threading.CancellationTokenSource"/>.
         /// </summary>
         /// <param name="cts"><seealso cref="T:System.Threading.CancellationTokenSource"/> used for cancellation.</param>
         /// <exception cref="ArgumentNullException"><paramref name="cts"/> is null.</exception>
@@ -40,7 +40,7 @@ namespace CodeBrix.Platform.Extensions.Disposables // was previously: Uno.Dispos
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Uno.Disposables.CancellationDisposable"/> class that uses a new <seealso cref="T:System.Threading.CancellationTokenSource"/>.
+        /// Initializes a new instance of the <see cref="T:CodeBrix.Platform.Extensions.Disposables.CancellationDisposable"/> class that uses a new <seealso cref="T:System.Threading.CancellationTokenSource"/>.
         /// </summary>
         public CancellationDisposable()
             : this(new CancellationTokenSource())

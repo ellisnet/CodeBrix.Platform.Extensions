@@ -45,9 +45,9 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno.Extensions
 		/// <param name="key">The key of the value to get.</param>
 		/// <param name="defaultValue">Default value if the key does not exsists in dictionary</param>
 		/// <returns>the value associated with the specified key, if the key is found; otherwise, the default value for the type of the value parameter.</returns>
-		public static TValue UnoGetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+		public static TValue PlatformGetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
 		{
-			return UnoGetValueOrDefault(dictionary, key, default(TValue));
+			return PlatformGetValueOrDefault(dictionary, key, default(TValue));
 		}
 
 		/// <summary>
@@ -59,7 +59,7 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno.Extensions
 		/// <param name="key">The key of the value to get.</param>
 		/// <param name="defaultValue">Default value if the key does not exsists in dictionary</param>
 		/// <returns>the value associated with the specified key, if the key is found; otherwise, the <paramref name="defaultValue"/>.</returns>
-		public static TValue UnoGetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+		public static TValue PlatformGetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
 		{
 			if (dictionary == null)
 			{

@@ -28,7 +28,7 @@ namespace CodeBrix.Platform.Extensions.Disposables // was previously: Uno.Dispos
         private bool _disposed;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Uno.Disposables.SerialDisposable"/> class.
+        /// Initializes a new instance of the <see cref="T:CodeBrix.Platform.Extensions.Disposables.SerialDisposable"/> class.
         /// </summary>
         public SerialDisposable()
         {

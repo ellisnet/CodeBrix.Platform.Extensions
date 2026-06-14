@@ -31,7 +31,7 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno.Extensions
         }
 
 		/// <summary>
-		/// Retreives the <see cref="ILoggerFactory"/> for this the Uno extension point.
+		/// Retrieves the <see cref="ILoggerFactory"/> for this extension point.
 		/// </summary>
 		public static ILoggerFactory AmbientLoggerFactory
 		{

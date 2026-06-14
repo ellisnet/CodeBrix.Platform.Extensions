@@ -139,7 +139,7 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno
 		}
 
 		/// <summary>
-		/// Creates a parameterless memoized function. <seealso cref="Uno.Extensions.FuncMemoizeExtensions"/>
+		/// Creates a parameterless memoized function. <seealso cref="CodeBrix.Platform.Extensions.FuncMemoizeExtensions"/>
 		/// </summary>
 		/// <typeparam name="TResult">The returned type</typeparam>
 		/// <param name="function">The source function</param>
@@ -150,7 +150,7 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno
 		}
 
 		/// <summary>
-		/// Creates a parameterless thread-safe memoized function. <seealso cref="Uno.Extensions.FuncMemoizeExtensions"/>
+		/// Creates a parameterless thread-safe memoized function. <seealso cref="CodeBrix.Platform.Extensions.FuncMemoizeExtensions"/>
 		/// </summary>
 		/// <typeparam name="TResult">The returned type</typeparam>
 		/// <param name="function">The source function</param>
@@ -231,7 +231,7 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno
 		}
 
 		/// <summary>
-		/// Creates a parameterless memoized task providing function. <seealso cref="Uno.Extensions.FuncMemoizeExtensions"/>
+		/// Creates a parameterless memoized task providing function. <seealso cref="CodeBrix.Platform.Extensions.FuncMemoizeExtensions"/>
 		/// </summary>
 		/// <typeparam name="TResult">The returned type</typeparam>
 		/// <param name="function">The source function</param>
@@ -242,7 +242,7 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno
 		}
 
 		/// <summary>
-		/// Creates a parameterless memoized task providing function. <seealso cref="Uno.Extensions.FuncMemoizeExtensions"/>
+		/// Creates a parameterless memoized task providing function. <seealso cref="CodeBrix.Platform.Extensions.FuncMemoizeExtensions"/>
 		/// </summary>
 		/// <typeparam name="TResult">The returned type</typeparam>
 		/// <param name="function">The source function</param>
@@ -253,7 +253,7 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno
 		}
 
 		/// <summary>
-		/// Creates a parameterless memoized task providing function. <seealso cref="Uno.Extensions.FuncMemoizeExtensions"/>
+		/// Creates a parameterless memoized task providing function. <seealso cref="CodeBrix.Platform.Extensions.FuncMemoizeExtensions"/>
 		/// </summary>
 		/// <typeparam name="TResult">The returned type</typeparam>
 		/// <param name="function">The source function</param>
@@ -265,7 +265,7 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno
 		}
 
 		/// <summary>
-		/// Creates a parameterless memoized task providing function. <seealso cref="Uno.Extensions.FuncMemoizeExtensions"/>
+		/// Creates a parameterless memoized task providing function. <seealso cref="CodeBrix.Platform.Extensions.FuncMemoizeExtensions"/>
 		/// </summary>
 		/// <typeparam name="TResult">The returned type</typeparam>
 		/// <param name="function">The source function</param>

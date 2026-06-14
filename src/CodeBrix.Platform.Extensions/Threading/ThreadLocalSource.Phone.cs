@@ -22,8 +22,7 @@ using System.Threading;
 namespace CodeBrix.Platform.Extensions.Threading // was previously: Uno.Threading
 {
 	/// <summary>
-	/// WARNING: This file is located here for compatibility reasons (SilverlightReaderWriterLock uses it, and it's in Uno.dll).
-	/// Use Uno.Patterns.ThreadLocalSource<T> instead.
+	/// WARNING: This type is kept for compatibility reasons (SilverlightReaderWriterLock uses it).
 	/// </summary>
 	internal sealed class ThreadLocalSource<T>
 	{
