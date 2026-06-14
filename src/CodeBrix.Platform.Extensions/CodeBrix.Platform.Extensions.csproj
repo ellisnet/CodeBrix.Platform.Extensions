@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <!-- netstandard2.0 defaults to C# 7.3; the upstream source uses nullable refs and modern syntax, so pin a modern language version for all TFMs. -->
+    <LangVersion>latest</LangVersion>
     <AssemblyName>CodeBrix.Platform.Extensions</AssemblyName>
     <RootNamespace>CodeBrix.Platform.Extensions</RootNamespace>
     <!--
@@ -67,7 +69,7 @@
     <Product>CodeBrix.Platform.Extensions</Product>
     <Title>CodeBrix.Platform.Extensions</Title>
     <Authors>Jeremy Ellis</Authors>
-    <Description>A .NET 10 bundle of the core nventive Uno.Core.Extensions helper libraries (general extensions, collections, disposables, equality, logging, and threading), namespace-renamed into CodeBrix.Platform.Extensions.* for use by CodeBrix.Platform and its consumers. Vendors the source of Uno.Core.Extensions, .Collections, .Disposables, .Equality, .Logging, .Logging.Singleton, and .Threading at version 4.1.1.</Description>
+    <Description>A .NET Standard 2.0 and .NET 10 bundle of the core nventive Uno.Core.Extensions helper libraries (general extensions, collections, disposables, equality, logging, and threading), namespace-renamed into CodeBrix.Platform.Extensions.* for use by CodeBrix.Platform and its consumers. Multi-targets netstandard2.0 (e.g. for Roslyn source generators) and net10.0. Vendors the source of Uno.Core.Extensions, .Collections, .Disposables, .Equality, .Logging, .Logging.Singleton, and .Threading at version 4.1.1.</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/ellisnet/CodeBrix.Platform.Extensions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/ellisnet/CodeBrix.Platform.Extensions</RepositoryUrl>
@@ -82,9 +84,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator" Version="2.0.7" />
+  </ItemGroup>
+
+  <!-- net10 has these in-box; netstandard2.0 needs explicit polyfill packages. -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
     <!-- System.Collections.Immutable ships in-box with the net10 shared framework (no PackageReference needed). -->
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.9" />
-    <PackageReference Include="CommonServiceLocator" Version="2.0.7" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="System.Collections.Immutable" Version="8.0.0" />
+    <PackageReference Include="System.Memory" Version="4.5.5" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
   </ItemGroup>
 
   <ItemGroup>
