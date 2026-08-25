@@ -31,7 +31,8 @@ namespace CodeBrix.Platform.Extensions // was previously: Uno.Extensions
 		//[Obsolete("Refactor to use .Do() instead. Will potentially enumerate the source more than once.")]
 		public static IEnumerable<T> ForEach<T>(this IEnumerable<T> items, Action<KeyValuePair<int, T>> action)
 		{
-			return ForEach(items, action);
+			//was previously: return ForEach(items, action);   (upstream bug: the overload called itself -> StackOverflowException)
+			return ForEach(items, (index, item) => action(new KeyValuePair<int, T>(index, item)));
 		}
 
 		//[Obsolete("Refactor to use .Do() instead. Will potentially enumerate the source more than once.")]

@@ -82,6 +82,23 @@ public class HelperBehaviorTests
     }
 
     [Fact]
+    public void EnumerableExtensions_ForEach_with_KeyValuePair_action_passes_index_and_item()
+    {
+        //Arrange
+        var seen = new List<KeyValuePair<int, string>>();
+
+        //Act
+        var result = new[] { "a", "b", "c" }.ForEach(seen.Add);
+
+        //Assert
+        seen.Should().ContainInOrder(
+            new KeyValuePair<int, string>(0, "a"),
+            new KeyValuePair<int, string>(1, "b"),
+            new KeyValuePair<int, string>(2, "c"));
+        result.Should().ContainInOrder("a", "b", "c");
+    }
+
+    [Fact]
     public void EnumerableExtensions_ForEach_visits_every_item()
     {
         //Arrange
