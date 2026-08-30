@@ -15,7 +15,7 @@
 //
 // ******************************************************************
 using System;
-using CommonServiceLocator;
+using CodeBrix.ServiceLocation;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 

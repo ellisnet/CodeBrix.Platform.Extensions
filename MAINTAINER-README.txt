@@ -81,7 +81,7 @@ frameworks.
 Per-target package references (net10 has these in-box, netstandard2.0 needs
 explicit polyfills):
 
-  all targets       CommonServiceLocator
+  all targets       CodeBrix.ServiceLocator.MsplLicenseForever
   net10.0           Microsoft.Extensions.Logging
   netstandard2.0    Microsoft.Extensions.Logging
                     System.Collections.Immutable
@@ -125,8 +125,10 @@ TESTING
   dotnet test CodeBrix.Platform.Extensions.slnx
 
 No opt-in environment variables, no special prep, no external services. The
-test project uses xUnit v3 + SilverAssertions + coverlet.collector and gets
-internals access through src/CodeBrix.Platform.Extensions/InternalsVisibleTo.cs.
+test project uses xUnit v3 + SilverAssertions and gets internals access through
+src/CodeBrix.Platform.Extensions/InternalsVisibleTo.cs. There is no coverage
+collector: coverlet.collector was removed from the test project, so do not
+reintroduce a coverage step or document one.
 
 The suite is a structural / smoke suite, not a 1:1 port of the upstream unit
 tests. It asserts:
@@ -223,11 +225,11 @@ CodeBrix.Platform imports none of its exclusive namespaces. If a future need
 appears for a type that lived only there, vendor that specific type in as a
 follow-up and extend THIRD-PARTY-NOTICES.txt accordingly.
 
-Note for a future refresh: THIRD-PARTY-NOTICES.txt names a CommonServiceLocator
-version that no longer matches the csproj's package reference, and describes
-the port as .NET 10 only, which predates the netstandard2.0 target. Correct
-both the next time that file is legitimately touched — it is not editable as
-part of documentation-only work.
+THIRD-PARTY-NOTICES.txt was last corrected when the service-locator dependency
+was swapped (see below): the stale "CommonServiceLocator 2.0.5" entry and the
+".NET 10 only" wording that predated the netstandard2.0 target were both fixed
+at that time. That file remains off-limits to documentation-only work — edit it
+only when a dependency or vendored source actually changes.
 
 
 CODING CONVENTIONS
@@ -268,7 +270,36 @@ NOTES
     including old .nupkg and .nuspec files from earlier builds). Those are
     ignored by .gitignore, are not tracked, and are not part of the package —
     never read a version number out of them.
-  * CommonServiceLocator is a hard dependency of the whole assembly but is
-    used by exactly one type, LoggingSingleton/LogExtensionPoint.cs. If that
-    ever becomes a problem, the fix is to make the lookup reflective, not to
-    drop the type.
+  * CodeBrix.ServiceLocator.MsplLicenseForever is a hard dependency of the
+    whole assembly but is used by exactly one type,
+    LoggingSingleton/LogExtensionPoint.cs. If that ever becomes a problem, the
+    fix is to make the lookup reflective, not to drop the type.
+  * That reference replaced CommonServiceLocator 2.0.7. The replacement is an
+    API-identical port of the same 2.0.7 surface into the
+    CodeBrix.ServiceLocation namespace, so the swap was a one-line `using`
+    change; no managed behavior changed. It also keeps the whole dependency
+    graph inside the CodeBrix family. Both packages multi-target
+    netstandard2.0 and net10.0 — CodeBrix.ServiceLocator was multi-targeted
+    specifically so this package's netstandard2.0 leg could consume it, since
+    it shipped net10.0-only through 1.0.242.982.
+  * The namespace imported by LogExtensionPoint.cs is CodeBrix.ServiceLocatION,
+    while the PackageId and assembly are CodeBrix.ServiceLocatOR. That mismatch
+    is deliberate on the locator's side, not a typo here. Historically the
+    locator used the CodeBrix.ServiceLocator namespace (through its version
+    1.0.242.982); because that namespace was a member of the enclosing CodeBrix
+    namespace, the bare name `ServiceLocator` bound to the namespace and hid the
+    class inside CodeBrix.Platform.Extensions (CS0234), and a top-of-file
+    using-alias could not fix it. The locator renamed its namespace, so this
+    file now needs only a plain top-level `using CodeBrix.ServiceLocation;` and
+    the alias workaround it briefly carried is gone.
+  * NOTE FOR CONSUMERS: the ambient provider is a private static field per
+    assembly, so a downstream app that still calls CommonServiceLocator's
+    ServiceLocator.SetLocatorProvider(...) is no longer observed by
+    LogExtensionPoint. It degrades silently to an empty LoggerFactory rather
+    than throwing. This is called out in AGENT-README.txt.
+  * The locator dependency must be pinned at 1.0.242.1047 or later. The two
+    earlier published versions (1.0.179.175 and 1.0.242.982) are net10.0-only
+    AND use the old CodeBrix.ServiceLocator namespace, so they break both the
+    netstandard2.0 target and the `using` in LogExtensionPoint.cs. Both have
+    been delisted from nuget.org; delisted packages still restore when pinned
+    by exact version, so do not pin below 1.0.242.1047.

@@ -1,11 +1,13 @@
 # CodeBrix.Platform.Extensions
 
-A .NET 10 bundle of the core nventive **Uno.Core.Extensions** helper libraries — general extensions, collections, disposables, equality comparers, logging helpers, and threading primitives — namespace-renamed into the `CodeBrix.Platform.Extensions.*` family for use by CodeBrix.Platform and its consumers.
+A .NET Standard 2.0 and .NET 10 bundle of the core nventive **Uno.Core.Extensions** helper libraries — general extensions, collections, disposables, equality comparers, logging helpers, and threading primitives — namespace-renamed into the `CodeBrix.Platform.Extensions.*` family for use by CodeBrix.Platform and its consumers.
 CodeBrix.Platform.Extensions vendors the source of seven Uno.Core.Extensions packages at version 4.1.1 into a single assembly and `CodeBrix.Platform.Extensions.ApacheLicenseForever` NuGet package, so CodeBrix.Platform has one CodeBrix-owned package instead of a fan-out of nventive `Uno.Core.Extensions.*` references.
 
 CodeBrix.Platform.Extensions supports applications and assemblies that target Microsoft .NET version 10.0 and later.
 Microsoft .NET version 10.0 is a Long-Term Supported (LTS) version of .NET, and was released on Nov 11, 2025; and will be actively supported by Microsoft until Nov 14, 2028.
 Please update your C#/.NET code and projects to the latest LTS version of Microsoft .NET.
+
+The package also carries a .NET Standard 2.0 target. That target exists for one specific reason: Roslyn source generators and analyzers are loaded by the compiler and must be built against `netstandard2.0`, so this target lets a generator or analyzer project consume these helpers. It is not general downlevel support — for ordinary applications and libraries, target .NET 10.
 
 ## CodeBrix.Platform.Extensions supports:
 

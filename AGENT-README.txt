@@ -49,7 +49,9 @@ Target frameworks:  net10.0  and  netstandard2.0
 NuGet dependencies, by id:
 
   All targets
-    CommonServiceLocator                 (used only by LogExtensionPoint)
+    CodeBrix.ServiceLocator.MsplLicenseForever
+                                         (used only by LogExtensionPoint;
+                                          namespace: CodeBrix.ServiceLocation)
 
   .NET 10 target
     Microsoft.Extensions.Logging
@@ -377,7 +379,7 @@ you call .Log():
     not an exception.
   * AmbientLoggerFactory resolves lazily on FIRST use, in this order:
       1. If you assigned AmbientLoggerFactory yourself, that instance is used.
-      2. Else, if CommonServiceLocator's ServiceLocator.IsLocationProviderSet
+      2. Else, if CodeBrix.ServiceLocation's ServiceLocator.IsLocationProviderSet
          is true, it calls ServiceLocator.Current.GetService(typeof(
          ILoggerFactory)). A resolved ILoggerFactory is used. A resolved
          object of the wrong type raises InvalidOperationException.
@@ -385,8 +387,38 @@ you call .Log():
          InvalidOperationException) it falls back to an empty LoggerFactory.
   * So there are exactly two supported bootstraps: assign
     LogExtensionPoint.AmbientLoggerFactory = <your factory>, or set a
-    CommonServiceLocator provider that can resolve ILoggerFactory. The
+    CodeBrix.ServiceLocation provider that can resolve ILoggerFactory. The
     direct assignment is the simpler one and needs no ServiceLocator at all.
+
+  * BREAKING CHANGE — the locator moved. This package previously used the
+    CommonServiceLocator package; it now uses
+    CodeBrix.ServiceLocator.MsplLicenseForever, an API-identical port of
+    CommonServiceLocator 2.0.7. Note the spelling: the PackageId says
+    ServiceLocatOR but the NAMESPACE you import is CodeBrix.ServiceLocatION.
+
+        using CodeBrix.ServiceLocation;   // then: ServiceLocator.SetLocatorProvider(...)
+
+    The ambient provider is a private static field PER ASSEMBLY, so the two
+    do not see each other. If you bootstrap logging by calling
+    CommonServiceLocator's ServiceLocator.SetLocatorProvider(...),
+    LogExtensionPoint will no longer observe it: IsLocationProviderSet reads
+    false and you silently get an empty LoggerFactory (no exception, no
+    output). Switch that call to CodeBrix.ServiceLocation's ServiceLocator,
+    or use the direct AmbientLoggerFactory assignment instead.
+
+  * The namespace is `CodeBrix.ServiceLocation`, NOT `CodeBrix.ServiceLocator`.
+    `using CodeBrix.ServiceLocator;` does not compile. The locator package used
+    the `CodeBrix.ServiceLocator` namespace through its version 1.0.242.982 and
+    renamed it, precisely because a namespace of that name is a member of the
+    enclosing `CodeBrix` namespace and hid the `ServiceLocator` CLASS from every
+    `CodeBrix.*` consumer — this very file hit that. With the rename, registering
+    a provider needs no alias or qualification from any namespace:
+
+        namespace CodeBrix.MyApp
+        {
+            using CodeBrix.ServiceLocation;
+            // ... ServiceLocator.SetLocatorProvider(() => myAdapter);
+        }
   * Do the bootstrap ONCE at startup, before anything calls .Log(). The
     per-type logger is cached in a static generic field the first time
     `instance.Log()` is called for that T; replacing the factory afterwards
@@ -1229,7 +1261,7 @@ COMPLETE EXAMPLES
     }
 
     // Alternative bootstrap: register an ILoggerFactory with
-    // CommonServiceLocator instead of assigning AmbientLoggerFactory.
+    // CodeBrix.ServiceLocation instead of assigning AmbientLoggerFactory.
     // LogExtensionPoint resolves ILoggerFactory from
     // ServiceLocator.Current on first use when a provider is set.
 
@@ -1410,8 +1442,10 @@ COMMON PITFALLS TO AVOID
   * Disposable.Create(null) throws ArgumentNullException. The action it wraps
     runs at most once no matter how often Dispose() is called.
   * Logging silently goes nowhere until AmbientLoggerFactory is set (or a
-    CommonServiceLocator provider can resolve ILoggerFactory). No exception
-    is thrown — if you see no output, you skipped the bootstrap.
+    CodeBrix.ServiceLocation provider can resolve ILoggerFactory). No exception
+    is thrown — if you see no output, you skipped the bootstrap. A provider
+    set on the OLD CommonServiceLocator package is not observed; see the
+    breaking-change note in the logging-bootstrap section.
   * The logger returned by instance.Log() is cached per static type T on
     first use. Set the factory before the first .Log() call, not after.
   * instance.Log() names the logger after the STATIC type of the expression.
@@ -1462,8 +1496,8 @@ WHAT THIS PACKAGE DOES NOT DO
     namespaces are renamed, so upstream code does not compile unchanged.
   * It is not a logging framework. It has no ILogger providers, sinks or
     configuration; you bring Microsoft.Extensions.Logging providers.
-  * It is not a dependency-injection container. CommonServiceLocator is used
-    only as an optional lookup for ILoggerFactory.
+  * It is not a dependency-injection container. CodeBrix.ServiceLocation is
+    used only as an optional lookup for ILoggerFactory.
   * It ships no UI types, no XAML, no controls and no platform abstractions.
   * It ships no MSBuild props/targets, no analyzers, no source generators and
     no native assets — the netstandard2.0 target exists so that generator and
@@ -1510,7 +1544,8 @@ QUICK REFERENCE CARD
   Targets       net10.0 and netstandard2.0 (the latter for Roslyn source
                 generators / analyzers)
   License       Apache-2.0
-  Deps          CommonServiceLocator, Microsoft.Extensions.Logging
+  Deps          CodeBrix.ServiceLocator.MsplLicenseForever,
+                Microsoft.Extensions.Logging
                 (+ System.Memory, System.Collections.Immutable,
                 System.Threading.Tasks.Extensions on netstandard2.0)
 

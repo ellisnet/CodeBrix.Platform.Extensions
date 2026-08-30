@@ -17,8 +17,8 @@ TEST PROJECT
   tests/CodeBrix.Platform.Extensions.Tests/
 
 The single non-package project in the repository. It is a net10.0 xUnit v3
-test project (SilverAssertions + coverlet.collector) that references the
-library by project reference and is granted internals access through
+test project (SilverAssertions) that references the library by project
+reference and is granted internals access through
 src/CodeBrix.Platform.Extensions/InternalsVisibleTo.cs. It is not packable and
 is not published.
 

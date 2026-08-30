@@ -1,13 +1,13 @@
 THIRD-PARTY SOFTWARE NOTICES AND INFORMATION
 
 CodeBrix.Platform.Extensions is a CodeBrix-family redistribution of the core
-nventive Uno.Core.Extensions helper libraries, bundled into a single .NET 10
-assembly with the namespaces renamed from `Uno.*` to
-`CodeBrix.Platform.Extensions.*`. Every `.cs` file under `src/` is derived from
-nventive's Uno.Core repository and is licensed under the Apache License,
+nventive Uno.Core.Extensions helper libraries, bundled into a single assembly
+targeting netstandard2.0 and .NET 10, with the namespaces renamed from `Uno.*`
+to `CodeBrix.Platform.Extensions.*`. Every `.cs` file under `src/` is derived
+from nventive's Uno.Core repository and is licensed under the Apache License,
 Version 2.0. The external NuGet dependencies (Microsoft.Extensions.Logging,
-CommonServiceLocator) are NOT redistributed as source — they remain ordinary
-package dependencies and ship under their own licenses.
+CodeBrix.ServiceLocator.MsplLicenseForever) are NOT redistributed as source —
+they remain ordinary package dependencies and ship under their own licenses.
 
 The full Apache License, Version 2.0 text is reproduced in the LICENSE file at
 the root of this repository.
@@ -67,10 +67,12 @@ the root of this repository.
          immutable-update helpers.
 
    Modifications made during the port:
-     - Target framework narrowed to net10.0 only (upstream multi-targeted
-       uap10.0.x / net46 / netstandard2.0 / netstandard2.1 / net5.0 / net6.0 /
-       net7.0). The upstream `#if` directives are preserved verbatim; the net10
-       build simply compiles the live branches.
+     - Target frameworks narrowed to netstandard2.0 and net10.0 (upstream
+       multi-targeted uap10.0.x / net46 / netstandard2.0 / netstandard2.1 /
+       net5.0 / net6.0 / net7.0). The upstream `#if` directives are preserved
+       verbatim; each build simply compiles the live branches. The
+       netstandard2.0 target exists so Roslyn source generators and analyzers
+       can consume these helpers.
      - Namespaces renamed `Uno.* -> CodeBrix.Platform.Extensions.*`
        (with `Uno.Extensions` and the root `Uno` namespace both mapping to
        `CodeBrix.Platform.Extensions`). Each renamed `namespace` line carries a
@@ -98,7 +100,14 @@ the root of this repository.
 Non-redistributed dependencies (referenced as NuGet packages, not vendored):
 
   - Microsoft.Extensions.Logging  (MIT) — used by the Logging helpers.
-  - CommonServiceLocator 2.0.5    (MS-PL) — used by LogExtensionPoint.
+  - CodeBrix.ServiceLocator.MsplLicenseForever
+                                  (MS-PL) — used by LogExtensionPoint. This is
+                                  a namespace-renamed port of CommonServiceLocator
+                                  2.0.7 (its namespace is
+                                  CodeBrix.ServiceLocation); it replaced a direct
+                                  reference to that package. Upstream
+                                  CommonServiceLocator attribution travels with
+                                  that package's own notices.
   - System.Collections.Immutable  — provided in-box by the .NET 10 shared
                                      framework (no package reference needed).
 
