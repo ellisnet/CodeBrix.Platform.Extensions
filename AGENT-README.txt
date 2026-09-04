@@ -22,10 +22,9 @@ generator or analyzer that wants these helpers can reference this package.
 Everything else should consume the .NET 10 target.
 
 Provenance: this is a namespace-renamed vendored redistribution of the core
-helper libraries of an upstream nventive open-source project, at that
-project's version 4.1.1 (commit 6da975c). Seven upstream helper projects were
-merged into one assembly. Every public type now lives under
-CodeBrix.Platform.Extensions.* — the upstream namespaces are NOT present in
+helper libraries of an upstream nventive open-source project. Seven upstream
+helper projects were merged into one assembly. Every public type now lives
+under CodeBrix.Platform.Extensions.* — the upstream namespaces are NOT present in
 this assembly. Do not write using directives for the upstream namespaces;
 they will not compile. Per-project provenance is in THIRD-PARTY-NOTICES.txt,
 which ships inside the package.
@@ -393,7 +392,7 @@ you call .Log():
   * BREAKING CHANGE — the locator moved. This package previously used the
     CommonServiceLocator package; it now uses
     CodeBrix.ServiceLocator.MsplLicenseForever, an API-identical port of
-    CommonServiceLocator 2.0.7. Note the spelling: the PackageId says
+    CommonServiceLocator. Note the spelling: the PackageId says
     ServiceLocatOR but the NAMESPACE you import is CodeBrix.ServiceLocatION.
 
         using CodeBrix.ServiceLocation;   // then: ServiceLocator.SetLocatorProvider(...)
@@ -408,8 +407,8 @@ you call .Log():
 
   * The namespace is `CodeBrix.ServiceLocation`, NOT `CodeBrix.ServiceLocator`.
     `using CodeBrix.ServiceLocator;` does not compile. The locator package used
-    the `CodeBrix.ServiceLocator` namespace through its version 1.0.242.982 and
-    renamed it, precisely because a namespace of that name is a member of the
+    the `CodeBrix.ServiceLocator` namespace in its earlier releases and renamed
+    it, precisely because a namespace of that name is a member of the
     enclosing `CodeBrix` namespace and hid the `ServiceLocator` CLASS from every
     `CodeBrix.*` consumer — this very file hit that. With the rename, registering
     a provider needs no alias or qualification from any namespace:

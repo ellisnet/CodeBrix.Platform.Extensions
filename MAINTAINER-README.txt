@@ -29,8 +29,16 @@ upstream project so provenance stays traceable.
 REPOSITORY LAYOUT
 =================
 
-  CodeBrix.Platform.Extensions.slnx        solution (Solution Items + Tests
-                                           folder + the library project)
+  CodeBrix.Platform.Extensions.slnx        solution. The Solution Items folder
+                                           carries .gitignore, AGENT-README.txt,
+                                           EXTRAS-README.txt, global.json,
+                                           icon-codebrix-128.png, LICENSE,
+                                           MAINTAINER-README.txt,
+                                           README-INDEX.txt, README.md and
+                                           THIRD-PARTY-NOTICES.txt; the Tests
+                                           folder carries the test project; the
+                                           library project sits at the root
+  global.json                              selects the test runner; see TESTING
   src/CodeBrix.Platform.Extensions/
       CodeBrix.Platform.Extensions.csproj
       InternalsVisibleTo.cs                -> CodeBrix.Platform.Extensions.Tests
@@ -63,6 +71,10 @@ BUILDING
 
   dotnet restore CodeBrix.Platform.Extensions.slnx
   dotnet build   CodeBrix.Platform.Extensions.slnx -c Release
+
+Requirements: the .NET 10 SDK. global.json at the repository root does NOT pin
+an SDK version, so the newest installed .NET 10 SDK is still used; it exists
+solely to select the test runner -- see TESTING.
 
 The library multi-targets netstandard2.0 and net10.0; the test project is
 net10.0 only.
@@ -123,6 +135,16 @@ TESTING
 =======
 
   dotnet test CodeBrix.Platform.Extensions.slnx
+
+THE TEST RUNNER IS Microsoft.Testing.Platform (MTP), selected by global.json at
+the repository root:
+
+    { "test": { "runner": "Microsoft.Testing.Platform" } }
+
+Because that setting lives in global.json rather than in the csproj, it applies
+to every `dotnet test` run anywhere in the repository, including CI. The file
+has no `sdk` section and pins no SDK version. Keep it committed -- without it
+`dotnet test` silently falls back to the older VSTest bridge.
 
 No opt-in environment variables, no special prep, no external services. The
 test project uses xUnit v3 + SilverAssertions and gets internals access through
