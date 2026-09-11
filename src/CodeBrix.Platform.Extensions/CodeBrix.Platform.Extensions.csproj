@@ -84,17 +84,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CodeBrix.ServiceLocator.MsplLicenseForever" Version="1.0.242.1047" />
+    <PackageReference Include="CodeBrix.ServiceLocator.MsplLicenseForever" Version="1.0.251.1433" />
   </ItemGroup>
 
   <!-- net10 has these in-box; netstandard2.0 needs explicit polyfill packages. -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
     <!-- System.Collections.Immutable ships in-box with the net10 shared framework (no PackageReference needed). -->
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.12" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.11" />
-    <PackageReference Include="System.Collections.Immutable" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.12" />
+    <PackageReference Include="System.Collections.Immutable" Version="10.0.12" />
     <PackageReference Include="System.Memory" Version="4.6.3" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
   </ItemGroup>
