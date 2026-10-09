@@ -381,9 +381,12 @@ you call .Log():
       2. Else, if CodeBrix.ServiceLocation's ServiceLocator.IsLocationProviderSet
          is true, it calls ServiceLocator.Current.GetService(typeof(
          ILoggerFactory)). A resolved ILoggerFactory is used. A resolved
-         object of the wrong type raises InvalidOperationException.
+         object of the wrong type (or null) does NOT surface an exception:
+         it is treated like a locator failure (step 3).
       3. Else (or when the locator throws NullReferenceException /
-         InvalidOperationException) it falls back to an empty LoggerFactory.
+         InvalidOperationException, or resolves a non-ILoggerFactory) it
+         silently falls back to an empty LoggerFactory. Any other exception
+         type thrown by the locator propagates.
   * So there are exactly two supported bootstraps: assign
     LogExtensionPoint.AmbientLoggerFactory = <your factory>, or set a
     CodeBrix.ServiceLocation provider that can resolve ILoggerFactory. The
